@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: resultbondhu_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: resultbondhu
+      POSTGRES_USER: rbuser
+      POSTGRES_PASSWORD: rbpass2025
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rbuser -d resultbondhu"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: resultbondhu_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://rbuser:rbpass2025@db:5432/resultbondhu
+      SECRET_KEY: resultbondhu-production-secret-key-change-this-2025
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 480
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  # React Frontend (Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: resultbondhu_frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
