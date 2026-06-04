@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pkl
+*.pdb
+*.swp
+*.dist-info/
+*.egg-info/
+.env
+.venv/
+venv/
+backend/venv/
+backend/__pycache__/
+backend/resultbondhu.db
+*.sqlite3
+*.log
+
+# Node
+node_modules/
+dist/
+build/
+frontend/.env
+
+# OS
+.DS_Store
