@@ -10,6 +10,19 @@ export function AuthProvider({ children }) {
   })
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    const token = localStorage.getItem('rb_token')
+    if (!token) return
+
+    authAPI.me()
+      .then(r => setUser(r.data))
+      .catch(() => {
+        localStorage.removeItem('rb_token')
+        localStorage.removeItem('rb_user')
+        setUser(null)
+      })
+  }, [])
+
   const login = async (email, password) => {
     setLoading(true)
     try {

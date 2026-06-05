@@ -37,11 +37,13 @@ export default function SubjectsPage() {
   const openCreate = () => {
     setEditingSubject(null)
     setForm(BLANK)
+    setIsComposing(false)
     setShowForm(true)
   }
 
   const openEdit = (subj) => {
     setEditingSubject(subj)
+    setIsComposing(false)
     setForm({
       name: subj.name,
       code: subj.code,
@@ -58,6 +60,7 @@ export default function SubjectsPage() {
 
   const startInlineEdit = (subj) => {
     setInlineEdit(subj.id)
+    setInlineIsComposing(false)
     setInlineForm({
       name: subj.name,
       code: subj.code,
@@ -70,7 +73,7 @@ export default function SubjectsPage() {
     })
   }
 
-  const cancelInline = () => { setInlineEdit(null); setInlineForm({}) }
+  const cancelInline = () => { setInlineEdit(null); setInlineForm({}); setInlineIsComposing(false) }
 
   const saveInline = async (subj) => {
     setSaving(true)
@@ -161,7 +164,7 @@ export default function SubjectsPage() {
           <form onSubmit={handleSubmit}>
             <div className="form-row" style={{ marginBottom: 10 }}>
               <F><label className="form-label">Subject Name</label>
-                <input type="text" className="form-control" value={form.name} onChange={e => { if (!isComposing) setForm(f => ({ ...f, name: e.target.value })) }} onCompositionStart={() => setIsComposing(true)} onCompositionEnd={e => { setIsComposing(false); setForm(f => ({ ...f, name: e.target.value })) }} placeholder="e.g. Physics" required />
+                <input type="text" className="form-control" autoFocus value={form.name} onChange={e => { if (!isComposing) setForm(f => ({ ...f, name: e.target.value })) }} onCompositionStart={() => setIsComposing(true)} onCompositionEnd={e => { setIsComposing(false); setForm(f => ({ ...f, name: e.target.value })) }} placeholder="e.g. Physics" required />
               </F>
               <F><label className="form-label">Subject Code</label>
                 <input type="text" className="form-control" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} placeholder="e.g. 174" required />
@@ -229,7 +232,7 @@ export default function SubjectsPage() {
                     // ── Inline edit row ──
                     <tr key={s.id} style={{ background: 'var(--brand-light)' }}>
                       <td>
-                        <input type="text" className="form-control" style={{ padding: '4px 8px' }}
+                        <input type="text" autoFocus className="form-control" style={{ padding: '4px 8px' }}
                           value={inlineForm.name} onChange={e => { if (!inlineIsComposing) setInlineForm(f => ({ ...f, name: e.target.value })) }} onCompositionStart={() => setInlineIsComposing(true)} onCompositionEnd={e => { setInlineIsComposing(false); setInlineForm(f => ({ ...f, name: e.target.value })) }} />
                       </td>
                       <td>
