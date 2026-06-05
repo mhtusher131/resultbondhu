@@ -218,17 +218,17 @@ export default function StudentsPage() {
               </div>
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">Full Name</label>
-                <input type="text" className="form-control" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} required />
+                <IMESafeInput type="text" className="form-control" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} required />
               </div>
             </div>
             <div className="form-row" style={{ marginBottom: 12 }}>
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">Registration No. (optional)</label>
-                <input type="text" className="form-control" value={form.registration_number} onChange={e => setForm(f => ({ ...f, registration_number: e.target.value }))} />
+                <IMESafeInput type="text" className="form-control" value={form.registration_number} onChange={e => setForm(f => ({ ...f, registration_number: e.target.value }))} />
               </div>
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">Guardian Phone (optional)</label>
-                <input type="text" className="form-control" value={form.guardian_phone} onChange={e => setForm(f => ({ ...f, guardian_phone: e.target.value }))} />
+                <IMESafeInput type="text" className="form-control" value={form.guardian_phone} onChange={e => setForm(f => ({ ...f, guardian_phone: e.target.value }))} />
               </div>
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">4th (Optional) Subject</label>
@@ -279,18 +279,13 @@ export default function StudentsPage() {
                           value={inlineForm.roll} onChange={e => setInlineForm(f => ({ ...f, roll: e.target.value }))} />
                       </td>
                       <td>
-                        <input type="text" className="form-control" style={{ padding: '4px 8px' }}
-                          value={inlineForm.full_name} onChange={e => setInlineForm(f => ({ ...f, full_name: e.target.value }))} />
+                        <IMESafeInput type="text" className="form-control" style={{ padding: '4px 8px' }} value={inlineForm.full_name} onChange={e => setInlineForm(f => ({ ...f, full_name: e.target.value }))} />
                       </td>
                       <td>
-                        <input type="text" className="form-control" style={{ padding: '4px 8px' }}
-                          value={inlineForm.registration_number} onChange={e => setInlineForm(f => ({ ...f, registration_number: e.target.value }))}
-                          placeholder="Reg No" />
+                        <IMESafeInput type="text" className="form-control" style={{ padding: '4px 8px' }} value={inlineForm.registration_number} onChange={e => setInlineForm(f => ({ ...f, registration_number: e.target.value }))} placeholder="Reg No" />
                       </td>
                       <td>
-                        <input type="text" className="form-control" style={{ padding: '4px 8px' }}
-                          value={inlineForm.guardian_phone} onChange={e => setInlineForm(f => ({ ...f, guardian_phone: e.target.value }))}
-                          placeholder="Phone" />
+                        <IMESafeInput type="text" className="form-control" style={{ padding: '4px 8px' }} value={inlineForm.guardian_phone} onChange={e => setInlineForm(f => ({ ...f, guardian_phone: e.target.value }))} placeholder="Phone" />
                       </td>
                       <td>
                         <select className="form-control" value={inlineForm.optional_subject || ''} onChange={e => setInlineForm(f => ({ ...f, optional_subject: e.target.value }))}>

@@ -142,7 +142,7 @@ export default function ExamsPage() {
             <div className="form-row" style={{ marginBottom: 12 }}>
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">New College Name</label>
-                <input
+                <IMESafeInput
                   type="text"
                   className="form-control"
                   value={form.college_name}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import IMESafeInput from '../components/IMESafeInput'
 import { examsAPI, subjectsAPI, usersAPI } from '../services/api'
 import { Plus, Trash2, Pencil, X, Check } from 'lucide-react'
 import toast from 'react-hot-toast'
@@ -15,11 +16,9 @@ export default function SubjectsPage() {
   const [editingSubject, setEditingSubject] = useState(null)
   const [form, setForm] = useState(BLANK)
   const [saving, setSaving] = useState(false)
-  const [isComposing, setIsComposing] = useState(false)
   // Inline edit
   const [inlineEdit, setInlineEdit] = useState(null)
   const [inlineForm, setInlineForm] = useState({})
-  const [inlineIsComposing, setInlineIsComposing] = useState(false)
 
   useEffect(() => {
     examsAPI.list().then(r => setExams(r.data))
@@ -37,13 +36,11 @@ export default function SubjectsPage() {
   const openCreate = () => {
     setEditingSubject(null)
     setForm(BLANK)
-    setIsComposing(false)
     setShowForm(true)
   }
 
   const openEdit = (subj) => {
     setEditingSubject(subj)
-    setIsComposing(false)
     setForm({
       name: subj.name,
       code: subj.code,
@@ -60,7 +57,6 @@ export default function SubjectsPage() {
 
   const startInlineEdit = (subj) => {
     setInlineEdit(subj.id)
-    setInlineIsComposing(false)
     setInlineForm({
       name: subj.name,
       code: subj.code,
@@ -73,7 +69,7 @@ export default function SubjectsPage() {
     })
   }
 
-  const cancelInline = () => { setInlineEdit(null); setInlineForm({}); setInlineIsComposing(false) }
+  const cancelInline = () => { setInlineEdit(null); setInlineForm({}) }
 
   const saveInline = async (subj) => {
     setSaving(true)
@@ -164,10 +160,10 @@ export default function SubjectsPage() {
           <form onSubmit={handleSubmit}>
             <div className="form-row" style={{ marginBottom: 10 }}>
               <F><label className="form-label">Subject Name</label>
-                <input type="text" className="form-control" autoFocus value={form.name} onChange={e => { if (!isComposing) setForm(f => ({ ...f, name: e.target.value })) }} onCompositionStart={() => setIsComposing(true)} onCompositionEnd={e => { setIsComposing(false); setForm(f => ({ ...f, name: e.target.value })) }} placeholder="e.g. Physics" required />
+                <IMESafeInput type="text" className="form-control" autoFocus value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. Physics" required />
               </F>
               <F><label className="form-label">Subject Code</label>
-                <input type="text" className="form-control" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} placeholder="e.g. 174" required />
+                <IMESafeInput type="text" className="form-control" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} placeholder="e.g. 174" required />
               </F>
             </div>
             <div className="form-row-3" style={{ marginBottom: 10 }}>
@@ -178,7 +174,7 @@ export default function SubjectsPage() {
                 </select>
               </F>
               <F><label className="form-label">Paper Group</label>
-                <input type="text" className="form-control" value={form.paper_group} onChange={e => setForm(f => ({ ...f, paper_group: e.target.value }))} placeholder="Shared group name" />
+                <IMESafeInput type="text" className="form-control" value={form.paper_group} onChange={e => setForm(f => ({ ...f, paper_group: e.target.value }))} placeholder="Shared group name" />
               </F>
               <F><label className="form-label">Paper Number</label>
                 <input type="number" className="form-control" value={form.paper_number} onChange={e => setForm(f => ({ ...f, paper_number: e.target.value }))} placeholder="1 or 2" />
@@ -232,12 +228,10 @@ export default function SubjectsPage() {
                     // ── Inline edit row ──
                     <tr key={s.id} style={{ background: 'var(--brand-light)' }}>
                       <td>
-                        <input type="text" autoFocus className="form-control" style={{ padding: '4px 8px' }}
-                          value={inlineForm.name} onChange={e => { if (!inlineIsComposing) setInlineForm(f => ({ ...f, name: e.target.value })) }} onCompositionStart={() => setInlineIsComposing(true)} onCompositionEnd={e => { setInlineIsComposing(false); setInlineForm(f => ({ ...f, name: e.target.value })) }} />
+                        <IMESafeInput type="text" autoFocus className="form-control" style={{ padding: '4px 8px' }} value={inlineForm.name} onChange={e => setInlineForm(f => ({ ...f, name: e.target.value }))} />
                       </td>
                       <td>
-                        <input type="text" className="form-control" style={{ padding: '4px 8px', width: 70 }}
-                          value={inlineForm.code} onChange={e => setInlineForm(f => ({ ...f, code: e.target.value }))} />
+                        <IMESafeInput type="text" className="form-control" style={{ padding: '4px 8px', width: 70 }} value={inlineForm.code} onChange={e => setInlineForm(f => ({ ...f, code: e.target.value }))} />
                       </td>
                       <td>
                         <select className="form-control" style={{ padding: '4px 8px' }}
@@ -247,8 +241,7 @@ export default function SubjectsPage() {
                         </select>
                       </td>
                       <td>
-                        <input type="text" className="form-control" style={{ padding: '4px 8px', width: 120 }}
-                          value={inlineForm.paper_group} onChange={e => setInlineForm(f => ({ ...f, paper_group: e.target.value }))} placeholder="Group" />
+                        <IMESafeInput type="text" className="form-control" style={{ padding: '4px 8px', width: 120 }} value={inlineForm.paper_group} onChange={e => setInlineForm(f => ({ ...f, paper_group: e.target.value }))} placeholder="Group" />
                       </td>
                       <td>
                         <input type="number" className="form-control" style={{ padding: '4px 8px', width: 70 }}

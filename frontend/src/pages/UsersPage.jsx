@@ -62,7 +62,7 @@ export default function UsersPage() {
             <div className="form-row" style={{ marginBottom: 10 }}>
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">Full Name</label>
-                <input type="text" className="form-control" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} required />
+                <IMESafeInput type="text" className="form-control" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} required />
               </div>
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">Email</label>
