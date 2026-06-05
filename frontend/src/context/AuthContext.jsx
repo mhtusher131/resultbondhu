@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
       return {
         ok: false,
         error: errorMessage === 'Network Error'
-          ? 'Unable to connect to the backend server. Is the API running on http://localhost:8001?'
+          ? 'Unable to connect to the backend server. Please check your backend URL and network connection.'
           : errorMessage,
       }
     } finally {
